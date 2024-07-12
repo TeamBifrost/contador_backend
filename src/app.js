@@ -3,6 +3,7 @@ import cors from "cors";
 import getUsers  from "./routers/usuarios.route.js";
 import getUserById from "./routers/usuarios.route.js";
 import createUser from "./routers/usuarios.route.js";
+import  putUser from "./routers/usuarios.route.js";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api", getUsers);
 app.use("/api", getUserById);
 app.use("/api", createUser);
+app.use("/api", putUser);
 
 // Manejar rutas no encontradas
 app.use((req, res, next) => {
