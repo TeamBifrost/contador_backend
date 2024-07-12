@@ -125,3 +125,25 @@ export const putUser = async (req, res) => {
     }
 };
 
+// Función para eliminar un usuario
+export const deleteUser = async (req, res) => {
+    const { id } = req.params; // Obtener el id del usuario desde los parámetros de la URL
+
+    try {
+        // Construir la consulta SQL para eliminar el usuario
+        const sql = "DELETE FROM usuarios WHERE coduser = ?";
+        const [result] = await pool.query(sql, [id]);
+
+        // Verificar si se eliminó correctamente
+        if (result.affectedRows > 0) {
+            res.json({ message: "Usuario eliminado correctamente" });
+        } else {
+            res.status(404).json({ error: "Usuario no encontrado" });
+        }
+    } catch (error) {
+        console.error("Error al eliminar el usuario:", error);
+        res.status(500).json({
+            error: "Ocurrió un error en el servidor"
+        });
+    }
+};

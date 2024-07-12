@@ -4,6 +4,7 @@ import getUsers  from "./routers/usuarios.route.js";
 import getUserById from "./routers/usuarios.route.js";
 import createUser from "./routers/usuarios.route.js";
 import  putUser from "./routers/usuarios.route.js";
+import deleteUser from "./routers/usuarios.route.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/api", getUsers);
 app.use("/api", getUserById);
 app.use("/api", createUser);
 app.use("/api", putUser);
+app.use("/api", deleteUser);
 
 // Manejar rutas no encontradas
 app.use((req, res, next) => {
