@@ -1,7 +1,6 @@
 import { pool } from "../db.js";
 import bcrypt from "bcrypt";
 
-
 //aqui se hace las acciones de Get, put y delete.
  export const getUsers = async(req, res) =>{
     try{
