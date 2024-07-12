@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import rutaUsuario  from "./routers/usuarios.route.js";
 import rutaClientes from "./routers/cliente.route.js";
-
+import tipoProductos from "./routers/tipoproducto.route.js";
  
 
 const app = express();
@@ -16,6 +16,7 @@ app.use(express.json());
 //Rutas .
 app.use("/api", rutaUsuario);
 app.use("/api", rutaClientes);
+app.use("/api", tipoProductos);
 
 
 // Manejar rutas no encontradas
