@@ -2,9 +2,18 @@ import { pool } from "../db.js";
 
 // Obtener todos los productos
 export const getProductos = async (req, res) => {
+    const { tipo } = req.query; // Obtener el parámetro tipo de la consulta
+    
     try {
-        const sql = "SELECT * FROM productos";
-        const [rows, fields] = await pool.query(sql);
+        let sql = "SELECT * FROM productos";
+        let params = [];
+
+        if (tipo) {
+            sql += " WHERE tipo = ?";
+            params.push(tipo);
+        }
+
+        const [rows, fields] = await pool.query(sql, params);
         res.json(rows);
     } catch (error) {
         console.error("Error al obtener los productos:", error);
