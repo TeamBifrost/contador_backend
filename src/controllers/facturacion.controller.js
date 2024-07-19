@@ -1,14 +1,25 @@
 import { pool } from "../db.js";
 
-export const createFacturacion = async (req, res) => {
+const validateData = (data) => {
+    const requiredFields = ['contrato', 'producto', 'preciofob', 'porcentajeflete', 'flete', 'margen', 'precioventa', 'tonermensual', 'toneranual', 'costoToner', 'facturacionToner'];
+    for (let field of requiredFields) {
+      if (!data[field]) {
+        throw new Error(`El campo ${field} es requerido`);
+      }
+    }
+  };
+
+  export const createFacturacion = async (req, res) => {
     const { contrato, producto, preciofob, porcentajeflete, flete, margen, precioventa, tonermensual, toneranual, costoToner, facturacionToner } = req.body;
 
     try {
-        const sql = `
+        validateData(req.body); // Validamos los datos entrantes
+        
+        const sqlInsert = `
             INSERT INTO facturacion (contrato, producto, preciofob, porcentajeflete, flete, margen, precioventa, tonermensual, toneranual, costoToner, facturacionToner)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const [result] = await pool.query(sql, [contrato, producto, preciofob, porcentajeflete, flete, margen, precioventa, tonermensual, toneranual, costoToner, facturacionToner]);
+        const [result] = await pool.query(sqlInsert, [contrato, producto, preciofob, porcentajeflete, flete, margen, precioventa, tonermensual, toneranual, costoToner, facturacionToner]);
 
         const sqlSelect = `
             SELECT * FROM facturacion WHERE facturaproducto = ?
@@ -19,7 +30,7 @@ export const createFacturacion = async (req, res) => {
     } catch (error) {
         console.error("Error al crear la facturación:", error);
         res.status(500).json({
-            error: "Ocurrió un error al crear la facturación"
+            error: error.message || "Ocurrió un error al crear la facturación"
         });
     }
 };
